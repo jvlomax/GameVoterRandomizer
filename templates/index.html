@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/bootstrap.css') }}"/>
+</head>
+<body>
+    <div class="col-md-4">
+        <form action="">
+            {%for game in games %}
+            <input type="checkbox" name="{{ game }}" value="{{ game }}">{{ game }}<br>
+        {% endfor %}
+        </form>
+
+
+<Button value="Save">Save </Button>
+    </div>
+<div class="col-md-8">
+    placeholder text
+    </div>
+</body>
+</html>
