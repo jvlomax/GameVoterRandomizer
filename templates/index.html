@@ -1,21 +1,61 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/bootstrap.css') }}"/>
+    <script type="application/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="application/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}"/>
 </head>
+
 <body>
     <div class="col-md-4">
         <form action="">
             {%for game in games %}
-            <input type="checkbox" name="{{ game }}" value="{{ game }}">{{ game }}<br>
-        {% endfor %}
+               {% if game in likes %}
+
+
+                     <input type="checkbox" name="{{ game }}" value="{{ game }}" checked="true">{{ game }}<br>
+
+                {% else %}
+                     <input type="checkbox" name="{{ game }}" value="{{ game }}">{{ game }}<br>
+                {%  endif %}
+
+           {% endfor %}
+
+
+
         </form>
 
 
-<Button value="Save">Save </Button>
+<Button value="Save" id="saveBtn">Save </Button>
     </div>
 <div class="col-md-8">
     placeholder text
     </div>
 </body>
+
+<script>
+$(document).ready(function(){
+
+
+    $("#saveBtn").click(function(){
+        var checkBoxes = $( ":checkbox");
+        console.log(checkBoxes);
+        len = checkBoxes.length;
+        var my_games = [];
+        for (var i = 0; i < len; i++){
+            if (checkBoxes[i].checked){
+                my_games.push(checkBoxes[i].name);
+            }
+
+        }
+        console.log(my_games);
+
+        $.post("save", JSON.stringify(my_games), function(response){
+
+        }, "json");
+    });
+
+});
+</script>
 </html>
