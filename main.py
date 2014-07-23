@@ -31,7 +31,11 @@ def index():
     user = request.cookies.get("uuid")
     games = []
     for row in Game.query.all():
-        games.append(row.title)
+        game = {}
+        game["title"] = row.title
+        game["num_likes"] = row.num_likes
+        game["id"] = row.id
+        games.append(game)
     print(games)
     if not user:
         newUser = str(uuid.uuid4().hex)
@@ -59,6 +63,10 @@ def index():
             likes_json = json.loads([])
         return render_template("index.html", games=games, likes=likes_json)
 
+@app.route("/info/<path:isbn>")
+def display_book(isbn):
+
+    render_template("book.html")
 @app.route("/save", methods=["POST"])
 def save_preferences():
     print("save")
@@ -72,7 +80,9 @@ def save_preferences():
     db_session.commit()
     return "200"
 
-
+@app.route("/about.html")
+def about():
+    return render_template("about.html")
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     db_session.remove()
