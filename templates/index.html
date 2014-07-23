@@ -5,7 +5,9 @@
     <script type="application/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.css') }}"/>
+
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/my.css') }}"/>
+
 </head>
 
 <body>
@@ -24,10 +26,8 @@
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
-                <li><a href="#mygames"> My games</a></li>
+                <li><a id="mygames" href="#mygames"> My games</a></li>
                 <li><a href="about.html">About</a></li>
-
-
             </ul>
           </div>
         </div>
@@ -35,6 +35,7 @@
 
     </div>
     <div class="container">
+    <div id="errorPlaceholder" style="margin-top: 20px"></div>
         <div style="padding: 40px 50px; text-align: center">
             <form action=""><ul class="list-group" id="gameList">
                 {%for game in games %}
@@ -48,11 +49,9 @@
         </div>
     </div>
 <div id="alert-placeholder"></div>
-    <DIV style="display: hidden" id="tetris" align="center"><param name=movie value="http://www.sillyjokes.co.uk/games/tetris.swf"> <param name=quality value=high> <embed src="http://www.sillyjokes.co.uk/games/tetris.swf" quality=high pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="550" height="360"> </embed> <BR><FONT SIZE="-2"><A HREF="http://www.sillyjokes.co.uk">SillyJokes.co.uk</A> where you can buy <A HREF="http://www.sillyjokes.co.uk/dress-up/index.html">Fancy Dress</A>, <A HREF="http://www.sillyjokes.co.uk/p-jokes/index.html">Practical Jokes</A>, and <A HREF="http://www.sillyjokes.co.uk/party/index.html">Party Supplies</A>.<BR> </DIV>
+    <DIV style="display: none" id="tetris" align="center"><param name=movie value="http://www.sillyjokes.co.uk/games/tetris.swf"> <param name=quality value=high> <embed src="http://www.sillyjokes.co.uk/games/tetris.swf" quality=high pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="550" height="360"> </embed> <BR><FONT SIZE="-2"><A HREF="http://www.sillyjokes.co.uk">SillyJokes.co.uk</A> where you can buy <A HREF="http://www.sillyjokes.co.uk/dress-up/index.html">Fancy Dress</A>, <A HREF="http://www.sillyjokes.co.uk/p-jokes/index.html">Practical Jokes</A>, and <A HREF="http://www.sillyjokes.co.uk/party/index.html">Party Supplies</A>.<BR> </DIV>
 </body>
-
 <script>
-
 var num_clicks = 0;
 
 $(document).ready(function(){
@@ -141,7 +140,6 @@ $(document).ready(function(){
                 '<button class="btn btn-default" type="button" id="addNewGameBtn">Save' +
                 '</button><span></div></li>';
 
-
         $("#gameList").append(inputfield)
         $("#addBtn").attr("disabled", "disabled");
     });
@@ -150,8 +148,6 @@ $(document).ready(function(){
        var name =  $("#newGameInput").text()
         console.log(name);
     });
-
-
 });
 
 $(document).on("click", "#addNewGameBtn", function(){
@@ -188,7 +184,6 @@ $(document).on("click", "#addNewGameBtn", function(){
             $("#" + span_name).text(likes);
         }
         savePrefs();
-
 });
 
 function addLike(id){
@@ -214,7 +209,6 @@ function savePrefs(){
 
         }else{
             console.log(checkBoxes[i]);
-
         }
 
     }
@@ -224,5 +218,9 @@ function savePrefs(){
 
     }, "json");
 };
+
+    $("#mygames").click(function(){
+        $("#errorPlaceholder").hide().html('<div class="alert alert-danger" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Help</span></button>I don\'t exist yet</div>').fadeIn("fast");
+    });
 </script>
 </html>

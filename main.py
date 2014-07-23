@@ -17,11 +17,6 @@ admin.add_view((ModelView(Game, db_session)))
 #drop_tables()
 init_db()
 
-g = None
-
-#for game in games:
-    #db_session.add(Game(game))run(
-    #db_session.commit()
 
 
 
