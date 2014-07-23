@@ -1,18 +1,18 @@
 __author__ = 'george'
 
 from flask import Flask, render_template, request, make_response, json
-from flask.ext.admin import Admin
+#from flask.ext.admin import Admin
 from flask.ext.admin.contrib.sqla import ModelView
 from database import init_db, db_session, drop_tables
 import uuid
 from models import Game, Cookie
 
 app = Flask(__name__)
-
+"""
 admin = Admin(app, name="superawesome game chooser")
 admin.add_view((ModelView(Game, db_session)))
 #games = ["Quake 1-2-3", "Unreal Tournament", "RA2"]
-
+"""
 #Remove databses first, always start fresh
 #drop_tables()
 init_db()
