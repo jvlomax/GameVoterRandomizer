@@ -1,6 +1,20 @@
 body{
     padding-top: 50px;
 }
+
+
+
+
+@font-face {
+    font-family: arcade;
+    src: url(../fonts/novem___.ttf);
+    font-strech: ultra-expanded;
+}
+
+#gameList{
+    font-size: 24px;
+    font-family: arcade;
+}
 li.new-item{
     opacity:  0;
     -webkit-animation: fadeIn .3s linear forwards;
@@ -51,3 +65,4 @@ li.new-item{
     33% {background: orange;}
     66% {background: yellow;}
 }
+

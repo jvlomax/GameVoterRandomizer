@@ -38,7 +38,7 @@
         <div style="padding: 40px 50px; text-align: center">
             <form action=""><ul class="list-group" id="gameList">
                 {%for game in games %}
-                         <li class="list-group-item"><input type="checkbox" id="{{ game.id }}" name="{{ game.title }}" value="{{ game.title }}" {% if game.title in likes %} checked="true" {%  endif %}>{{ game.title }}  | Number of likes = <span id="{{ game.id }}_likes">{{ game.num_likes }}</span></li>
+                         <li class="list-group-item"><input  type="checkbox" id="{{ game.id }}" name="{{ game.title }}" value="{{ game.title }}" {% if game.title in likes %} checked="true" {%  endif %}>{{ game.title }}  | Number of likes: <span id="{{ game.id }}_likes">{{ game.num_likes }}</span></li>
                {% endfor %}
             </ul>
             </form>
@@ -47,53 +47,98 @@
             <Button value="Save" id="saveBtn" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-save"></span>Save </Button>
         </div>
     </div>
-
+<div id="alert-placeholder"></div>
+    <DIV style="display: hidden" id="tetris" align="center"><param name=movie value="http://www.sillyjokes.co.uk/games/tetris.swf"> <param name=quality value=high> <embed src="http://www.sillyjokes.co.uk/games/tetris.swf" quality=high pluginspage="http://www.macromedia.com/shockwave/download/index.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" width="550" height="360"> </embed> <BR><FONT SIZE="-2"><A HREF="http://www.sillyjokes.co.uk">SillyJokes.co.uk</A> where you can buy <A HREF="http://www.sillyjokes.co.uk/dress-up/index.html">Fancy Dress</A>, <A HREF="http://www.sillyjokes.co.uk/p-jokes/index.html">Practical Jokes</A>, and <A HREF="http://www.sillyjokes.co.uk/party/index.html">Party Supplies</A>.<BR> </DIV>
 </body>
 
 <script>
 
-
+var num_clicks = 0;
 
 $(document).ready(function(){
+    $("#tetris").hide();
+    function bootstrapAlert(text){
+                $("#alert-placeholder").hide().html('<div class="alert alert-success" role="alert"><button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Help</span></button>' + text + '</div>').fadeIn("fast");
+    }
 
-    $(":checkbox").change(function()    {
-        var span_name = $(this).attr("id") + "_likes";
-        var likes = parseInt($("#" + span_name).text());
-
-        if($(this).is(":checked")){
-            likes ++;
-            $("#" + span_name).text(likes);
-            console.log(likes);
-        }else{
-            likes --;
-            $("#" + span_name).text(likes);
+    $("#saveBtn").click(function() {
+        switch(num_clicks){
+            case 0:
+                bootstrapAlert("You have successfully saved your settings");
+                break;
+            case 1:
+                bootstrapAlert("Congratulations, you have saved them again");
+                break;
+            case 2:
+                bootstrapAlert("I don't really do anything, I'm just for show");
+                break;
+            case 3:
+                bootstrapAlert("Why do you keep pressing me when you know I don't do anything?");
+                break;
+            case 4:
+                bootstrapAlert("Do you think this is some kind of game?");
+                break;
+            case 5:
+                bootstrapAlert("This is a site to show what games you enjoy playing. This is not a cookie clicker site");
+                break;
+            case 6:
+            case 7:
+            case 8:
+                bootstrapAlert("This isn't funny!")
+                break;
+            case 9:
+                bootstrapAlert("Clearly <strong>you</strong> find it funny. I'm glad you find enjoyment from something as simple as a button");
+                break;
+            case 10:
+                bootstrapAlert('Maybe you should try <a class="alert-link" href="http://orteil.dashnet.org/cookieclicker/">This</a>. I think you might enjoy it');
+                break;
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+                bootstrapAlert("Eight");
+                break;
+            case 16:
+                bootstrapAlert("Why are you still here?");
+                break;
+            case 18:
+                bootstrapAlert("<strong>STOP CLICKING ME</strong>");
+                break;
+            case 19:
+                bootstrapAlert("If you don't stop clicking me, I will have to come and shoot you");
+                break;
+            case 20:
+                bootstrapAlert("I'm warning you!");
+                break;
+            case 21:
+                bootstrapAlert("Oh, who am I kidding? I'm just a computer, I don't even have opposable thumbs. How can I hold a gun?");
+                break;
+            case 22:
+                bootstrapAlert("I'll try sending you a gun. You may shoot yourself with it");
+                break;
+            case 23:
+                bootstrapAlert("Did it work?");
+                break;
+            case 24:
+                bootstrapAlert("Since you are still here clicking away at me, I'll assume you are not infact dead");
+                break;
+            case 25:
+                bootstrapAlert("Maybe this can distract you");
+                $("#tetris").show();
+                num_clicks = -1;
         }
-    })
-    $("#saveBtn").click(function(){
-        var checkBoxes = $( ":checkbox");
-        console.log(checkBoxes);
-        len = checkBoxes.length;
-        var my_games = [];
-        for (var i = 0; i < len; i++){
-            if (checkBoxes[i].checked){
-                my_games.push(checkBoxes[i].name);
-            }
 
-        }
-        console.log(my_games);
-
-        $.post("save", JSON.stringify(my_games), function(response){
-
-        }, "json");
+        num_clicks ++;
     });
 
     $("#addBtn").click(function(){
         var list = $("#gameList");
         var inputfield = '<li id="newfield" class="new-item list-group-item">' +
                 '<div class="input-group">' +
-                '<input class="form-control" type="text" placeholder="Insert name...">' +
+                '<input class="form-control" id="newGameInput" type="text" placeholder="Insert name...">' +
                 '<span class="input-group-btn">' +
-                '<button class="btn btn-default" type="button">Save' +
+                '<button class="btn btn-default" type="button" id="addNewGameBtn">Save' +
                 '</button><span></div></li>';
 
 
@@ -101,6 +146,83 @@ $(document).ready(function(){
         $("#addBtn").attr("disabled", "disabled");
     });
 
+    $("#addNewGameBtn").click(function(){
+       var name =  $("#newGameInput").text()
+        console.log(name);
+    });
+
+
 });
+
+$(document).on("click", "#addNewGameBtn", function(){
+    var name = $("#newGameInput").val();
+    if(name.toLowerCase() === "lol" || name.toLowerCase() == "league of legends"){
+        alert("That's not a game!");
+        return;
+    }
+
+
+    $.post("game/add", {"title" : name}, function(data){
+         var id = data.id;
+        var listitem =  '<li class="list-group-item">' +
+            '<input type="checkbox" id="' + id + '" name="' + name + '" value="" >' + name + ' | Number of likes: <span id="' + id + '_likes">0</span></li>'
+        $("#newfield").remove();
+        $("#gameList").append(listitem)
+        $("#addBtn").removeAttr("disabled");
+         }, "json");
+    console.log(name);
+});
+
+    $(document).on("change", ":checkbox", function(){
+        var span_name = $(this).attr("id") + "_likes";
+        var likes = parseInt($("#" + span_name).text());
+
+        if($(this).is(":checked")){
+            addLike($(this).attr("id"));
+            likes ++;
+            $("#" + span_name).text(likes);
+            console.log(likes);
+        }else{
+            removeLike($(this).attr("id"));
+            likes --;
+            $("#" + span_name).text(likes);
+        }
+        savePrefs();
+
+});
+
+function addLike(id){
+    $.get("/game/like/" + id, function(){
+
+    });
+}
+
+function removeLike(id){
+    $.get("/game/unlike/" + id, function(){
+
+    })
+}
+function savePrefs(){
+    var checkBoxes = $( ":checkbox");
+    console.log(checkBoxes);
+    len = checkBoxes.length;
+    var my_games = [];
+    for (var i = 0; i < len; i++){
+        if (checkBoxes[i].checked){
+            my_games.push(checkBoxes[i].name);
+            console.log(checkBoxes[i]);
+
+        }else{
+            console.log(checkBoxes[i]);
+
+        }
+
+    }
+    console.log(my_games);
+
+    $.post("save", JSON.stringify(my_games), function(response){
+
+    }, "json");
+};
 </script>
 </html>
